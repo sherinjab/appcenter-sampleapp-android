@@ -1,8 +1,16 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 27
-    buildToolsVersion "27.0.3"
+    signingConfigs {
+        config {
+            keyAlias 'SherinAndroidKey'
+            keyPassword 'Andr0id123'
+            storeFile file('C:/Android/Keystores/SherinPersonal/Android.jks')
+            storePassword 'Andr0id123'
+        }
+    }
+    compileSdkVersion 28
+    buildToolsVersion '28.0.3'
     defaultConfig {
         applicationId "com.example.appcenter.sampleapp_android"
         minSdkVersion 15
@@ -15,12 +23,13 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.config
         }
     }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     androidTestImplementation('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
@@ -30,4 +39,5 @@ dependencies {
     def appCenterSdkVersion = '1.5.0'
     implementation "com.microsoft.appcenter:appcenter-analytics:${appCenterSdkVersion}"
     implementation "com.microsoft.appcenter:appcenter-crashes:${appCenterSdkVersion}"
+    androidTestImplementation 'com.xamarin.testcloud:espresso-support:1.3'
 }
